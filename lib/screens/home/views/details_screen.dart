@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pizza_app/components/macro.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pizza_repository/pizza_repository.dart';
+import '../../../components/macro.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
+  final Pizza pizza;
+  const DetailsScreen(this.pizza, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class DetailsScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             Container(
@@ -21,44 +23,39 @@ class DetailsScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.width - (40),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: const [
                     BoxShadow(
-                      color: Colors.blue.withOpacity(0.1),
-                      offset: const Offset(0, 0),
-                      blurRadius: 8,
-                    )
+                        color: Colors.grey, offset: Offset(3, 3), blurRadius: 5)
                   ],
-                  image: const DecorationImage(
-                      image: AssetImage('assets/1 (1).png'))),
+                  image: DecorationImage(
+                      image: NetworkImage(pizza.picture ?? ''))),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(
+              height: 30,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.1),
-                    offset: const Offset(0, 0),
-                    blurRadius: 8,
-                  )
+                      color: Colors.grey, offset: Offset(3, 3), blurRadius: 5)
                 ],
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 2,
                           child: Text(
-                            "Truffle Tempation Extravaganza",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                            pizza.name ?? 'Unknown Pizza',
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
                         Expanded(
@@ -69,73 +66,85 @@ class DetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  "\$12.00",
+                                  "\$${pizza.price! - (pizza.price! * (pizza.discount!) / 100)}",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
                                       fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .primary),
                                 ),
-                                const Text(
-                                  "\$15.00",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                Text(
+                                  "\$${pizza.price}.00",
+                                  style: const TextStyle(
                                       fontSize: 16,
-                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
                                       decoration: TextDecoration.lineThrough),
                                 ),
                               ],
                             ),
                           ),
-                        ),
+                        )
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    const Row(
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
                       children: [
                         MyMacroWidget(
-                          title: 'Claories',
-                          value: '653',
-                          icon: Icons.energy_savings_leaf,
+                          title: "Calories",
+                          value: pizza.macros!.calories.toString(),
+                          icon: FontAwesomeIcons.fire,
                         ),
-                        SizedBox(width: 8),
-                        MyMacroWidget(
-                          title: 'Protein',
-                          value: '64g',
-                          icon: Icons.mediation,
+                        const SizedBox(
+                          width: 10,
                         ),
-                        SizedBox(width: 8),
                         MyMacroWidget(
-                          title: 'Carbs',
-                          value: '120g',
-                          icon: Icons.emergency_sharp,
+                          title: "Protein",
+                          value: pizza.macros!.proteins.toString(),
+                          icon: FontAwesomeIcons.dumbbell,
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         MyMacroWidget(
-                          title: 'Fat',
-                          value: '80g',
-                          icon: Icons.breakfast_dining,
+                          title: "Fat",
+                          value: pizza.macros!.fat.toString(),
+                          icon: FontAwesomeIcons.oilWell,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        MyMacroWidget(
+                          title: "Carbs",
+                          value: pizza.macros!.carbs.toString(),
+                          icon: FontAwesomeIcons.breadSlice,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(
+                      height: 40,
+                    ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: 48,
+                      height: 50,
                       child: TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
+                            elevation: 3.0,
+                            backgroundColor: Colors.black,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        child: const Text(
+                          "Buy Now",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
                         ),
-                        child: const Text("Buy Now",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16)),
                       ),
                     )
                   ],

@@ -1,8 +1,8 @@
 class MacrosEntity {
-  int calories;
-  int proteins;
-  int fat;
-  int carbs;
+  int? calories;
+  int? proteins;
+  int? fat;
+  int? carbs;
 
   MacrosEntity({
     required this.calories,

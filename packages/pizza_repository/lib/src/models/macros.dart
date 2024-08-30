@@ -1,10 +1,10 @@
 import '../entities/macros_entity.dart';
 
 class Macros {
-  int calories;
-  int proteins;
-  int fat;
-  int carbs;
+  int? calories;
+  int? proteins;
+  int? fat;
+  int? carbs;
 
   Macros({
     required this.calories,
@@ -15,10 +15,10 @@ class Macros {
 
   MacrosEntity toEntity() {
     return MacrosEntity(
-      calories: calories,
-      proteins: proteins,
-      fat: fat,
-      carbs: carbs,
+      calories: calories!,
+      proteins: proteins!,
+      fat: fat!,
+      carbs: carbs!,
     );
   }
 
